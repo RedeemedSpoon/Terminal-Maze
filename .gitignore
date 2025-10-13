@@ -1,0 +1,13 @@
+/build/
+/bin/
+
+.vscode/
+.idea/
+
+*.o
+*.a
+*.so
+
+compile_commands.json
+.DS_Store
+Thumbs.db
