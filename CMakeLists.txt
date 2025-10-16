@@ -6,13 +6,22 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_executable(maze src/main.c)
+add_executable(
+  maze
+  src/main.c
+  src/game.c
+  src/args.c
+  src/render.c
+  src/helpers.c
+  src/listener.c
+  src/generator.c
+)
 
 target_include_directories(maze PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 if(MSVC)
-    target_compile_options(maze PRIVATE /W4)
+  target_compile_options(maze PRIVATE /W4)
 else()
-    target_compile_options(maze PRIVATE -Wall -Wextra -Wpedantic)
-    target_compile_options(maze PRIVATE -Werror)
+  target_compile_options(maze PRIVATE -Wall -Wextra -Wpedantic)
+  target_compile_options(maze PRIVATE -Werror)
 endif()

@@ -6,7 +6,7 @@ int main(int argc, char **argv) {
   signal(SIGFPE, signal_handler);
   signal(SIGABRT, signal_handler);
 
-  enum GameState game_state = PLAYING;
+  GameState game_state = PLAYING;
   Config config = {0};
   Maze maze;
 

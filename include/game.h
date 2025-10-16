@@ -3,17 +3,20 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #define VERSION "0.0.1"
 #define DEFAULT_WIDTH 80
 #define DEFAULT_HEIGHT 25
 #define DEFAULT_COLOR 3
 
-enum Direction { UP, DOWN, LEFT, RIGHT };
+typedef enum { PLAYING = 0, WON = 1, EXITED = 2 } GameState;
 
-enum GameState { PLAYING, WON, EXITED };
+typedef enum { UP = 1, DOWN = 2, LEFT = 4, RIGHT = 8 } Key;
 
-enum Color {
+typedef enum { NORTH = 1, SOUTH = 2, EAST = 4, WEST = 8 } Direction;
+
+typedef enum {
   RED = 1,
   BLUE = 2,
   GREEN = 3,
@@ -22,25 +25,30 @@ enum Color {
   CYAN = 6,
   WHITE = 7,
   RESET = 0
-};
+} Color;
+
+typedef struct {
+  unsigned short x, y;
+} Position;
+
+typedef struct {
+  uint8_t open_walls;
+  Direction walk_path_direction;
+  bool was_visited;
+  bool in_maze;
+} Cell;
 
 typedef unsigned long Seed;
 
 typedef unsigned short Coordinate;
 
-typedef struct position {
-  unsigned short x, y;
-} Position;
+typedef Cell *Maze;
 
-typedef struct cell { } Cell;
-
-typedef struct maze { } Maze;
-
-typedef struct config {
+typedef struct {
   Seed seed;
   Coordinate width;
   Coordinate height;
-  enum Color color;
+  Color color;
   bool has_trail;
 } Config;
 
@@ -54,7 +62,7 @@ Maze generate_maze(Seed seed);
 void start_game(Maze *maze);
 void draw_maze(Maze *maze);
 void listen_inputs(void);
-void update_maze(Maze *maze, Position *position, enum Direction direction);
+void update_maze(Maze *maze, Position *position, Key key);
 
 void win_game(void);
 void exit_game(void);
