@@ -1,6 +1,6 @@
 #include "game.h"
 
-void start_game(Maze *maze);
+void start_game(Maze maze);
 
 void win_game(void);
 

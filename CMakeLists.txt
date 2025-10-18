@@ -12,6 +12,7 @@ add_executable(
   src/game.c
   src/args.c
   src/render.c
+  src/parser.c
   src/helpers.c
   src/listener.c
   src/generator.c

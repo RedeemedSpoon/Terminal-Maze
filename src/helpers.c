@@ -22,3 +22,22 @@ void signal_handler(int sig) {
 
   exit(1);
 }
+
+void print_help(void) {
+  const int alignment_width = -30;
+  printf("Usage: maze [options]\n\n");
+  printf("Options:\n");
+
+  printf("  %*s  Show this help message and exit.\n", alignment_width,
+         "-h, --help");
+  printf("  %*s  Show the program's version number and exit.\n",
+         alignment_width, "-v, --version");
+  printf("  %*s  Set the maze path color (e.g., RED, BLUE).\n", alignment_width,
+         "-c, --color <COLOR>");
+  printf("  %*s  Set the seed for random maze generation.\n", alignment_width,
+         "-s, --seed <SEED>");
+  printf("  %*s  Set the maze dimensions (e.g., 80x25).\n", alignment_width,
+         "-w, --window <WIDTHxHEIGHT>");
+  printf("  %*s  Enable a trail showing the player's path.\n", alignment_width,
+         "-t, --trail");
+}

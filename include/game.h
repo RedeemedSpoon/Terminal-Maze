@@ -38,11 +38,11 @@ typedef struct {
   bool in_maze;
 } Cell;
 
+typedef Cell *Maze;
+
 typedef unsigned long Seed;
 
 typedef unsigned short Coordinate;
-
-typedef Cell *Maze;
 
 typedef struct {
   Seed seed;
@@ -52,6 +52,11 @@ typedef struct {
   bool has_trail;
 } Config;
 
+Position parse_window(char *window, Position window_size);
+Color parse_color(char *color);
+Seed parse_seed(char *seed);
+
+void print_help(void);
 Config parse_args(int argc, char *argv[]);
 Position get_terminal_size(void);
 void signal_handler(int signal);
@@ -59,21 +64,13 @@ void signal_handler(int signal);
 Seed generate_seed(void);
 Maze generate_maze(Seed seed);
 
-void start_game(Maze *maze);
-void draw_maze(Maze *maze);
+void start_game(Maze maze);
+void draw_maze(Maze maze);
+void update_maze(Maze maze, Position position, Key key);
 void listen_inputs(void);
-void update_maze(Maze *maze, Position *position, Key key);
 
 void win_game(void);
 void exit_game(void);
 void replay_game(void);
-
-// Possible Arg :
-// -h | --help
-// -v | --version
-// -c | --color
-// -s | --seed
-// -w | --window
-// -t | --trail
 
 #endif
