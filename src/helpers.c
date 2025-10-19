@@ -2,8 +2,15 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
-Position get_terminal_size(void);
+Position get_terminal_size(void) {
+  struct winsize ws;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
+  Position size = {.x = ws.ws_col, .y = ws.ws_row};
+  return size;
+}
 
 void signal_handler(int sig) {
   switch (sig) {

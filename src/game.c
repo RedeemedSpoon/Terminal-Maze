@@ -1,9 +1,9 @@
 #include "game.h"
 
-void start_game(Maze maze);
+void start_game(Maze maze, GameState state);
 
-void win_game(void);
+void win_game(GameState state);
 
-void exit_game(void);
+void exit_game(GameState state);
 
-void replay_game(void);
+void replay_game(GameState state);

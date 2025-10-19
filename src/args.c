@@ -8,16 +8,6 @@ static bool arg_matches(char *arg, char *short_form, char *long_form) {
 }
 
 Config parse_args(int argc, char *argv[]) {
-  if (argc > 1 && arg_matches(argv[1], "-h", "--help")) {
-    print_help();
-    exit(0);
-  }
-
-  if (argc > 1 && arg_matches(argv[1], "-v", "--version")) {
-    printf("version: %s\n", VERSION);
-    exit(0);
-  }
-
   Config config = {0};
   Position window_size = get_terminal_size();
 
@@ -47,6 +37,16 @@ Config parse_args(int argc, char *argv[]) {
 
     else if (arg_matches(argv[i], "-t", "--trail")) {
       config.has_trail = true;
+    }
+
+    else if (arg_matches(argv[i], "-h", "--help")) {
+      print_help();
+      exit(0);
+    }
+
+    else if (arg_matches(argv[i], "-v", "--version")) {
+      printf("version: %s\n", VERSION);
+      exit(0);
     }
 
     else {

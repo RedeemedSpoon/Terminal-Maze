@@ -64,13 +64,13 @@ void signal_handler(int signal);
 Seed generate_seed(void);
 Maze generate_maze(Seed seed);
 
-void start_game(Maze maze);
+void listen_inputs(void);
 void draw_maze(Maze maze);
 void update_maze(Maze maze, Position position, Key key);
-void listen_inputs(void);
 
-void win_game(void);
-void exit_game(void);
-void replay_game(void);
+void start_game(Maze maze, GameState state);
+void win_game(GameState state);
+void exit_game(GameState state);
+void replay_game(GameState state);
 
 #endif

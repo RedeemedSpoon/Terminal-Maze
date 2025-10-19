@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
 
 static void check_arg(char *arg, char *message) {
   if (arg == NULL) {
@@ -39,17 +38,10 @@ Seed parse_seed(char *seed) {
   check_arg(seed, "-s, --seed");
 
   char *endptr;
-  errno = 0;
-
   Seed parsed_seed = strtoul(seed, &endptr, 10);
 
   if (*endptr != '\0') {
-    fprintf(stderr, "Error: Invalid seed '%s'. Seed must be a positive number.\n", seed);
-    exit(1);
-  }
-
-  if (parsed_seed == 0 || errno == ERANGE) {
-    fprintf(stderr, "Error: Seed must be a positive number.\n");
+    fprintf(stderr, "Error: Invalid seed '%s'. Seed must be a number.\n", seed);
     exit(1);
   }
 
