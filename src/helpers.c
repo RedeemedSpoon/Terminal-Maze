@@ -48,3 +48,8 @@ void print_help(void) {
   printf("  %*s  Enable a trail showing the player's path.\n", alignment_width,
          "-t, --trail");
 }
+
+void free_maze(Maze maze, Coordinate height) {
+  for (int y = 0; y < height; y++) free(maze[y]);
+  free(maze);
+}

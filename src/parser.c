@@ -26,6 +26,12 @@ Position parse_window(char *window, Position window_size) {
   }
 
   if (parsed_dims.x > window_size.x || parsed_dims.y > window_size.y) {
+    fprintf(stderr, "Error: Window size %hux%hu exceeds window size.\n",
+            parsed_dims.x, parsed_dims.y);
+    exit(1);
+  }
+
+  if (parsed_dims.x > MAX_WIDTH || parsed_dims.y > MAX_HEIGHT) {
     fprintf(stderr, "Error: Window size %hux%hu exceeds maximum size.\n",
             parsed_dims.x, parsed_dims.y);
     exit(1);

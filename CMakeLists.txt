@@ -18,6 +18,8 @@ add_executable(
   src/generator.c
 )
 
+target_compile_options(maze PRIVATE -O3)
+target_compile_options(maze PRIVATE -Ofast)
 target_include_directories(maze PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 if(MSVC)

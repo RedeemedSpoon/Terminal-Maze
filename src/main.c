@@ -8,12 +8,13 @@ int main(int argc, char **argv) {
 
   GameState game_state = PLAYING;
   Config config = {0};
-  // Maze maze;
+  Maze maze;
 
   while (game_state == PLAYING) {
     config = config.seed ? config : parse_args(argc, argv);
-    // maze = generate_maze(config.seed);
-    // start_game(maze, game_state);
+    maze = generate_maze(config.seed, config.width, config.height);
+    start_game(maze, &game_state);
+    free_maze(maze, config.height);
   }
 
   return 0;
