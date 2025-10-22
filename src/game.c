@@ -1,7 +1,9 @@
 #include "game.h"
+#include <stdio.h>
 
-void start_game(Maze maze, GameState *state) {
+void start_game(Maze maze, Config config, GameState *state) {
   (void)maze;
+  (void)config;
   *state = EXITED;
 }
 

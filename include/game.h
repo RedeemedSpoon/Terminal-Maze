@@ -10,8 +10,8 @@
 #define MAX_WIDTH 512
 
 typedef enum { 
-  PLAYING = 0, 
-  WON = 1, 
+  PLAYING = 0,
+  WON = 1,
   EXITED = 2
 } GameState;
 
@@ -39,9 +39,14 @@ typedef struct {
 
 typedef struct {
   bool visited;
-  unsigned char walls;
+  unsigned short walls;
   Direction walk_direction;
 } Cell;
+
+typedef struct {
+  Cell *cell;
+  short x, y;
+} CellPosition;
 
 typedef Cell **Maze;
 
@@ -74,7 +79,7 @@ void listen_inputs(void);
 void draw_maze(Maze maze);
 void update_maze(Maze maze, Position position, Direction direction);
 
-void start_game(Maze maze, GameState *state);
+void start_game(Maze maze, Config config, GameState *state);
 void win_game(GameState *state);
 void exit_game(GameState *state);
 void replay_game(GameState *state);

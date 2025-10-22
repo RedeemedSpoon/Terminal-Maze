@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
   while (game_state == PLAYING) {
     config = config.seed ? config : parse_args(argc, argv);
     maze = generate_maze(config.seed, config.width, config.height);
-    start_game(maze, &game_state);
+    start_game(maze, config, &game_state);
     free_maze(maze, config.height);
   }
 

@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <time.h>
+
+Seed generate_seed(void) {
+  Seed current_time = time(NULL);
+  return current_time;
+}
 
 Position get_terminal_size(void) {
   struct winsize ws;
