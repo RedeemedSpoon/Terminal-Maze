@@ -62,8 +62,8 @@ typedef struct {
   bool has_trail;
 } Config;
 
-Config parse_args(int argc, char *argv[]);
 Position parse_window(char *window, Position window_size);
+Config parse_args(int argc, char *argv[]);
 Color parse_color(char *color);
 Seed parse_seed(char *seed);
 
@@ -75,13 +75,8 @@ void print_help(void);
 Seed generate_seed(void);
 Maze generate_maze(Seed seed, Coordinate width, Coordinate height);
 
-void listen_inputs(void);
 void draw_maze(Maze maze);
 void update_maze(Maze maze, Position position, Direction direction);
-
 void start_game(Maze maze, Config config, GameState *state);
-void win_game(GameState *state);
-void exit_game(GameState *state);
-void replay_game(GameState *state);
 
 #endif

@@ -15,11 +15,17 @@ add_executable(
   src/parser.c
   src/helpers.c
   src/listener.c
-  src/generator.c
-)
+  src/generator.c)
+
+find_package(Curses REQUIRED)
+if(CURSES_FOUND)
+  target_link_libraries(maze PRIVATE ${CURSES_LIBRARIES})
+  target_include_directories(maze PRIVATE ${CURSES_INCLUDE_DIR})
+else()
+  message(FATAL_ERROR "Curses library not found!")
+endif()
 
 target_compile_options(maze PRIVATE -O3)
-target_compile_options(maze PRIVATE -Ofast)
 target_include_directories(maze PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 if(MSVC)

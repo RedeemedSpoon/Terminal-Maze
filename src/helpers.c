@@ -1,9 +1,9 @@
 #include "game.h"
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <sys/ioctl.h>
+#include <signal.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <time.h>
 
 Seed generate_seed(void) {
