@@ -11,8 +11,7 @@
 
 typedef enum { 
   PLAYING = 0,
-  WON = 1,
-  EXITED = 2
+  EXITED = 1, 
 } GameState;
 
 typedef enum { 
@@ -76,7 +75,7 @@ Seed generate_seed(void);
 Maze generate_maze(Seed seed, Coordinate width, Coordinate height);
 
 void draw_maze(Maze maze);
-void update_maze(Maze maze, Position position, Direction direction);
+void update_maze(Maze maze, Position *position, Direction direction);
 void start_game(Maze maze, Config config, GameState *state);
 
 #endif

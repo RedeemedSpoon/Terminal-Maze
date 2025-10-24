@@ -14,7 +14,6 @@ add_executable(
   src/render.c
   src/parser.c
   src/helpers.c
-  src/listener.c
   src/generator.c)
 
 find_package(Curses REQUIRED)
