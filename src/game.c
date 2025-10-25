@@ -1,6 +1,7 @@
 #include "game.h"
 #include <ctype.h>
 #include <ncurses.h>
+#include <locale.h>
 
 static void win(GameState *state) {
   int screen_h, screen_w;
@@ -38,6 +39,7 @@ static void win(GameState *state) {
 }
 
 static void init_ncurses(void) {
+  setlocale(LC_ALL, "en_US.UTF-8");
   initscr();
   cbreak();
   noecho();
@@ -50,7 +52,7 @@ void start_game(Maze maze, Config config, GameState *state) {
   int ch = 0;
 
   init_ncurses();
-  draw_maze(maze);
+  draw_maze(maze, config.width, config.height);
 
   while (*state == PLAYING) {
     switch (tolower(ch = getch())) {

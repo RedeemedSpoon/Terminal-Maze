@@ -74,7 +74,7 @@ void print_help(void);
 Seed generate_seed(void);
 Maze generate_maze(Seed seed, Coordinate width, Coordinate height);
 
-void draw_maze(Maze maze);
+void draw_maze(Maze maze, Coordinate width, Coordinate height);
 void update_maze(Maze maze, Position *position, Direction direction);
 void start_game(Maze maze, Config config, GameState *state);
 
