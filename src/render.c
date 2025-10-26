@@ -1,10 +1,38 @@
 #include "game.h"
 #include <ncurses.h>
 
-const char *WALLS = "═║╔╗╚╝╦╩╠╣╬ ";
+const char *WALLS = "═║╔╗╚╝╦╩╠╣╬";
 typedef signed short Shr;
 
-int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
+static int match_nearby_walls(Maze maze, Shr y, Shr x, Shr width, Shr height) {
+  Shr connections = 0;
+  if (y > 0 && y <= height && x > 0 && x <= width) {
+    if (maze[y - 1][x - 1].walls & EAST)
+      connections |= NORTH;
+    if (maze[y][x - 1].walls & EAST)
+      connections |= SOUTH;
+    if (maze[y - 1][x - 1].walls & SOUTH)
+      connections |= WEST;
+    if (maze[y - 1][x].walls & SOUTH)
+      connections |= EAST;
+  }
+
+  int vertical_connections = 0;
+  if (connections & NORTH) vertical_connections++;
+  if (connections & SOUTH) vertical_connections++;
+
+  int horizontal_connections = 0;
+  if (connections & WEST) horizontal_connections++;
+  if (connections & EAST) horizontal_connections++;
+
+  if (vertical_connections > horizontal_connections) {
+    return 1; // '║'
+  } else {
+    return 0; // '═'
+  }
+}
+
+static int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
   Shr connections = 0;
 
   if (y == 0 && x == 0) {
@@ -66,7 +94,7 @@ int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
   case NORTH | SOUTH | WEST | EAST:
     return 10; // ╬
   default:
-    return -1;
+    return match_nearby_walls(maze, y, x, width, height);
   }
 }
 
@@ -74,13 +102,13 @@ void draw_maze(Maze maze, Coordinate width, Coordinate height) {
   for (int y = 0; y <= height; y++) {
     for (int x = 0; x <= width; x++) {
       int wall_index = get_wall_index(maze, y, x, width, height);
-      printw("%.3s", &WALLS[wall_index == -1 ? 11 * 3 : wall_index * 3]);
+      printw("%.3s", &WALLS[wall_index * 3]);
 
       if (x < width) {
         bool is_internal_row = (y > 0 && y < height);
         bool has_wall = is_internal_row ? (maze[y - 1][x].walls & SOUTH) : true;
 
-        printw(has_wall ? "══" : "  ");
+        printw(has_wall ? "═══" : "   ");
       }
     }
     printw("\n");
@@ -88,7 +116,7 @@ void draw_maze(Maze maze, Coordinate width, Coordinate height) {
     if (y < height) {
       for (int x = 0; x < width; x++) {
         bool vertical_wall_left = (x == 0) || (maze[y][x - 1].walls & EAST);
-        printw(vertical_wall_left ? "║  " : "   ");
+        printw(vertical_wall_left ? "║   " : "    ");
       }
       printw("║\n");
     }
