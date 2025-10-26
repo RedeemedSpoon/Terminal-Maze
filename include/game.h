@@ -8,6 +8,8 @@
 #define VERSION "0.0.1"
 #define MAX_HEIGHT 256
 #define MAX_WIDTH 512
+#define PLAYER_SYMBOL "●"
+#define GOAL_SYMBOL "⊛"
 
 typedef enum { 
   PLAYING = 0,
@@ -48,6 +50,8 @@ typedef struct {
 } CellPosition;
 
 typedef Cell **Maze;
+
+typedef signed short Shr;
 
 typedef unsigned long Seed;
 

@@ -2,7 +2,8 @@
 #include <ncurses.h>
 
 const char *WALLS = "═║╔╗╚╝╦╩╠╣╬";
-typedef signed short Shr;
+static int start_x = 0;
+static int start_y = 0;
 
 static int match_nearby_walls(Maze maze, Shr y, Shr x, Shr width, Shr height) {
   Shr connections = 0;
@@ -98,15 +99,26 @@ static int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
   }
 }
 
-void draw_maze(Maze maze, Coordinate width, Coordinate height) {
+static void set_center_coordinates(Shr width, Shr height) {
   int term_h, term_w;
   getmaxyx(stdscr, term_h, term_w);
 
   int maze_char_width = (width * 4) + 1;
   int maze_char_height = (height * 2) + 1;
 
-  int start_y = (term_h - maze_char_height) / 2;
-  int start_x = (term_w - maze_char_width) / 2;
+  start_y = (term_h - maze_char_height) / 2;
+  start_x = (term_w - maze_char_width) / 2;
+}
+
+static void draw_symbol(char symbol[],Shr y, Shr x) {
+  int screen_y = start_y + (y * 2) + 1;
+  int screen_x = start_x + (x * 4) + 2;
+  mvprintw(screen_y, screen_x, "%s", symbol);
+}
+
+void draw_maze(Maze maze, Coordinate width, Coordinate height) {
+  set_center_coordinates(width, height);
+  clear();
 
   for (int y = 0; y <= height; y++) {
     move(start_y + (y * 2), start_x);
@@ -118,7 +130,6 @@ void draw_maze(Maze maze, Coordinate width, Coordinate height) {
       if (x < width) {
         bool is_internal_row = (y > 0 && y < height);
         bool has_wall = is_internal_row ? (maze[y - 1][x].walls & SOUTH) : true;
-
         printw(has_wall ? "═══" : "   ");
       }
     }
@@ -134,6 +145,9 @@ void draw_maze(Maze maze, Coordinate width, Coordinate height) {
       printw("║\n");
     }
   }
+
+  draw_symbol(GOAL_SYMBOL, 0, width - 1);
+  draw_symbol(PLAYER_SYMBOL, height - 1, 0);
 }
 
 void update_maze(Maze maze, Position *position, Direction direction) {

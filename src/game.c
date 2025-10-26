@@ -1,7 +1,7 @@
 #include "game.h"
 #include <ctype.h>
-#include <ncurses.h>
 #include <locale.h>
+#include <ncurses.h>
 
 static void win(GameState *state) {
   int screen_h, screen_w;
