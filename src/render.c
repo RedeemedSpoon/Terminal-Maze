@@ -18,18 +18,18 @@ static int match_nearby_walls(Maze maze, Shr y, Shr x, Shr width, Shr height) {
   }
 
   int vertical_connections = 0;
-  if (connections & NORTH) vertical_connections++;
-  if (connections & SOUTH) vertical_connections++;
+  if (connections & NORTH)
+    vertical_connections++;
+  if (connections & SOUTH)
+    vertical_connections++;
 
   int horizontal_connections = 0;
-  if (connections & WEST) horizontal_connections++;
-  if (connections & EAST) horizontal_connections++;
+  if (connections & WEST)
+    horizontal_connections++;
+  if (connections & EAST)
+    horizontal_connections++;
 
-  if (vertical_connections > horizontal_connections) {
-    return 1; // '║'
-  } else {
-    return 0; // '═'
-  }
+  return vertical_connections > horizontal_connections;
 }
 
 static int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
@@ -99,7 +99,18 @@ static int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
 }
 
 void draw_maze(Maze maze, Coordinate width, Coordinate height) {
+  int term_h, term_w;
+  getmaxyx(stdscr, term_h, term_w);
+
+  int maze_char_width = (width * 4) + 1;
+  int maze_char_height = (height * 2) + 1;
+
+  int start_y = (term_h - maze_char_height) / 2;
+  int start_x = (term_w - maze_char_width) / 2;
+
   for (int y = 0; y <= height; y++) {
+    move(start_y + (y * 2), start_x);
+
     for (int x = 0; x <= width; x++) {
       int wall_index = get_wall_index(maze, y, x, width, height);
       printw("%.3s", &WALLS[wall_index * 3]);
@@ -114,6 +125,8 @@ void draw_maze(Maze maze, Coordinate width, Coordinate height) {
     printw("\n");
 
     if (y < height) {
+      move(start_y + (y * 2) + 1, start_x);
+
       for (int x = 0; x < width; x++) {
         bool vertical_wall_left = (x == 0) || (maze[y][x - 1].walls & EAST);
         printw(vertical_wall_left ? "║   " : "    ");

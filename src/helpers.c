@@ -14,7 +14,9 @@ Seed generate_seed(void) {
 Position get_terminal_size(void) {
   struct winsize ws;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
-  Position size = {.x = ws.ws_col, .y = ws.ws_row};
+  Position size = {.x = ws.ws_col - 1, .y = ws.ws_row};
+  size.x /= 4;
+  size.y /= 2;
   return size;
 }
 
