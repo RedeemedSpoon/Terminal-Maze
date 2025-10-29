@@ -7,11 +7,11 @@ int main(int argc, char **argv) {
   signal(SIGABRT, signal_handler);
 
   GameState game_state = PLAYING;
-  Config config = {0};
+  Config config;
   Maze maze;
 
   while (game_state == PLAYING) {
-    config = config.seed ? config : parse_args(argc, argv);
+    config = parse_args(argc, argv);
     maze = generate_maze(config.seed, config.width, config.height);
     start_game(maze, config, &game_state);
     free_maze(maze, config.height);
