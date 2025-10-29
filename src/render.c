@@ -4,8 +4,10 @@
 const char *WALLS = "═║╔╗╚╝╦╩╠╣╬";
 static int start_x = 0;
 static int start_y = 0;
+static int height = 0;
+static int width = 0;
 
-static int match_nearby_walls(Maze maze, Shr y, Shr x, Shr width, Shr height) {
+static int match_nearby_walls(Maze maze, Shr y, Shr x) {
   Shr connections = 0;
   if (y > 0 && y <= height && x > 0 && x <= width) {
     if (maze[y - 1][x - 1].walls & EAST)
@@ -33,7 +35,7 @@ static int match_nearby_walls(Maze maze, Shr y, Shr x, Shr width, Shr height) {
   return vertical_connections > horizontal_connections;
 }
 
-static int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
+static int get_wall_index(Maze maze, Shr y, Shr x) {
   Shr connections = 0;
 
   if (y == 0 && x == 0) {
@@ -95,7 +97,7 @@ static int get_wall_index(Maze maze, Shr y, Shr x, Shr width, Shr height) {
   case NORTH | SOUTH | WEST | EAST:
     return 10; // ╬
   default:
-    return match_nearby_walls(maze, y, x, width, height);
+    return match_nearby_walls(maze, y, x);
   }
 }
 
@@ -110,21 +112,23 @@ static void set_center_coordinates(Shr width, Shr height) {
   start_x = (term_w - maze_char_width) / 2;
 }
 
-static void draw_symbol(char symbol[],Shr y, Shr x) {
+static void draw_symbol(char symbol[], Shr y, Shr x) {
   int screen_y = start_y + (y * 2) + 1;
   int screen_x = start_x + (x * 4) + 2;
   mvprintw(screen_y, screen_x, "%s", symbol);
 }
 
-void draw_maze(Maze maze, Coordinate width, Coordinate height) {
-  set_center_coordinates(width, height);
+void draw_maze(Maze maze, Coordinate w, Coordinate h) {
+  set_center_coordinates(w, h);
+  height = h;
+  width = w;
   clear();
 
   for (int y = 0; y <= height; y++) {
     move(start_y + (y * 2), start_x);
 
     for (int x = 0; x <= width; x++) {
-      int wall_index = get_wall_index(maze, y, x, width, height);
+      int wall_index = get_wall_index(maze, y, x);
       printw("%.3s", &WALLS[wall_index * 3]);
 
       if (x < width) {
@@ -151,7 +155,34 @@ void draw_maze(Maze maze, Coordinate width, Coordinate height) {
 }
 
 void update_maze(Maze maze, Position *position, Direction direction) {
-  (void)maze;
-  (void)position;
-  (void)direction;
+  draw_symbol(" ", position->y, position->x);
+  int walls = maze[position->y][position->x].walls;
+
+  switch (direction) {
+  case NORTH:
+    if (position->y != 0 && walls % 2 != 1) {
+      position->y--;
+    }
+    break;
+
+  case SOUTH:
+    if (position->y <= height - 2 && (walls & 2) == 0) {
+      position->y++;
+    }
+    break;
+
+  case EAST:
+    if ((walls & 4) == 0) {
+      position->x++;
+    }
+    break;
+
+  case WEST:
+    if ((position->x <= (width)) && (walls < 8)) {
+      position->x--;
+    }
+    break;
+  }
+
+  draw_symbol(PLAYER_SYMBOL, position->y, position->x);
 }

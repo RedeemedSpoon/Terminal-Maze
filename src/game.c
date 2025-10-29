@@ -48,7 +48,7 @@ static void init_ncurses(void) {
 }
 
 void start_game(Maze maze, Config config, GameState *state) {
-  Position position = {0, 0};
+  Position position = {.y = config.height - 1, .x = 0};
   int ch = 0;
 
   init_ncurses();
@@ -81,7 +81,7 @@ void start_game(Maze maze, Config config, GameState *state) {
       break;
     }
 
-    if (position.x == config.width - 1 && position.y == config.height - 1) {
+    if (position.x == config.width - 1 && !position.y) {
       win(state);
       break;
     }
