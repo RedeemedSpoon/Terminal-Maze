@@ -1,7 +1,8 @@
 #include "game.h"
 #include <ncurses.h>
 
-const char *WALLS = "═║╔╗╚╝╦╩╠╣╬";
+static const char *WALLS = "═║╔╗╚╝╦╩╠╣╬";
+static bool trail_on = false;
 static int start_x = 0;
 static int start_y = 0;
 static int height = 0;
@@ -115,13 +116,15 @@ static void set_center_coordinates(Shr width, Shr height) {
 static void draw_symbol(char symbol[], Shr y, Shr x) {
   int screen_y = start_y + (y * 2) + 1;
   int screen_x = start_x + (x * 4) + 2;
+
   mvprintw(screen_y, screen_x, "%s", symbol);
 }
 
-void draw_maze(Maze maze, Coordinate w, Coordinate h) {
-  set_center_coordinates(w, h);
-  height = h;
-  width = w;
+void draw_maze(Maze maze, Config config) {
+  set_center_coordinates(config.width, config.height);
+  trail_on = config.has_trail;
+  height = config.height;
+  width = config.width;
   clear();
 
   for (int y = 0; y <= height; y++) {
@@ -155,7 +158,10 @@ void draw_maze(Maze maze, Coordinate w, Coordinate h) {
 }
 
 void update_maze(Maze maze, Position *position, Direction direction) {
+  if (trail_on) attron(COLOR_PAIR(1));
   draw_symbol(" ", position->y, position->x);
+  if (trail_on) attroff(COLOR_PAIR(1));
+
   int walls = maze[position->y][position->x].walls;
 
   switch (direction) {

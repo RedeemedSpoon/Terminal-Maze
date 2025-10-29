@@ -45,6 +45,10 @@ static void init_ncurses(void) {
   noecho();
   curs_set(0);
   keypad(stdscr, TRUE);
+
+  start_color();
+  use_default_colors();
+  init_pair(1, -1, 238);
 }
 
 void start_game(Maze maze, Config config, GameState *state) {
@@ -52,7 +56,7 @@ void start_game(Maze maze, Config config, GameState *state) {
   int ch = 0;
 
   init_ncurses();
-  draw_maze(maze, config.width, config.height);
+  draw_maze(maze, config);
 
   while (*state == PLAYING) {
     switch (tolower(ch = getch())) {
