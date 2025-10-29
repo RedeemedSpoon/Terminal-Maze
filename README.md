@@ -1,10 +1,11 @@
 # Terminal Maze
 
+![Terminal Maze Gameplay](./showcase.gif)
+
 A lightweight, highly customizable maze game that runs directly in your terminal. Written in C, it uses command-line arguments for maze generation, offering a classic gaming experience with a modern, configurable twist.
 
 ## Installation
 
-[Terminal Maze Gameplay](./showcase.mp4)
 
 Follow these instructions to get a copy of the project up and running on your local machine.
 
@@ -31,7 +32,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 To run the game, execute the compiled binary from your terminal.
 
 ```sh
-./bin/maze [options] # sudo mv ./bin/maze /usr/bin to access the game form anywhere
+./bin/maze [options] # sudo mv ./bin/maze /usr/bin to access the game from anywhere
 ```
 
 ## Command-Line Options
