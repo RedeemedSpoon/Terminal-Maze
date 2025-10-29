@@ -116,7 +116,6 @@ static void set_center_coordinates(Shr width, Shr height) {
 static void draw_symbol(char symbol[], Shr y, Shr x) {
   int screen_y = start_y + (y * 2) + 1;
   int screen_x = start_x + (x * 4) + 2;
-
   mvprintw(screen_y, screen_x, "%s", symbol);
 }
 
@@ -127,6 +126,7 @@ void draw_maze(Maze maze, Config config) {
   width = config.width;
   clear();
 
+  if (config.color) attron(COLOR_PAIR(2));
   for (int y = 0; y <= height; y++) {
     move(start_y + (y * 2), start_x);
 
@@ -153,14 +153,17 @@ void draw_maze(Maze maze, Config config) {
     }
   }
 
+  if (config.color) attroff(COLOR_PAIR(2));
   draw_symbol(GOAL_SYMBOL, 0, width - 1);
   draw_symbol(PLAYER_SYMBOL, height - 1, 0);
 }
 
 void update_maze(Maze maze, Position *position, Direction direction) {
-  if (trail_on) attron(COLOR_PAIR(1));
+  if (trail_on)
+    attron(COLOR_PAIR(1));
   draw_symbol(" ", position->y, position->x);
-  if (trail_on) attroff(COLOR_PAIR(1));
+  if (trail_on)
+    attroff(COLOR_PAIR(1));
 
   int walls = maze[position->y][position->x].walls;
 

@@ -38,7 +38,7 @@ static void win(GameState *state) {
   delwin(win_box);
 }
 
-static void init_ncurses(void) {
+static void init_ncurses(int color) {
   setlocale(LC_ALL, "en_US.UTF-8");
   initscr();
   cbreak();
@@ -48,14 +48,15 @@ static void init_ncurses(void) {
 
   start_color();
   use_default_colors();
-  init_pair(1, -1, 238);
+  init_pair(1, -1, 236);
+  init_pair(2, color, -1);
 }
 
 void start_game(Maze maze, Config config, GameState *state) {
   Position position = {.y = config.height - 1, .x = 0};
   int ch = 0;
 
-  init_ncurses();
+  init_ncurses(config.color);
   draw_maze(maze, config);
 
   while (*state == PLAYING) {
